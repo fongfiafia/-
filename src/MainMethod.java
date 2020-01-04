@@ -21,6 +21,7 @@ public class MainMethod {
 	private static String PRESTR = "<!--";
 	private static String POSTSTR = "-->";
 	
+	
 	public static void main(String[] args) {
 		MainMethod mainMethod = new MainMethod();
 		URL resource = mainMethod.getClass().getResource("");
@@ -69,6 +70,9 @@ public class MainMethod {
 				line = tempMap.get("line");
 				notePostFlag = tempMap.get("notePostFlag");
 				
+				// 替换文字内容
+				readLine = replaceContent(readLine);
+				
 				// 放在map中缓存
 				map.put(line, readLine);
 				line++;
@@ -104,12 +108,32 @@ public class MainMethod {
 		
 	}
 
+	/**
+	 * 替换文本内容
+	 * @param readLine
+	 * @return
+	 */
+	private static String replaceContent(String readLine) {
+		if (readLine.contains("xxxxxxxx")) { // 要更改的原文
+			readLine = "yyyyyyy";   // 手动写上要改成什么
+		}
+		return null;
+	}
+
+	/**
+	 * 给多行注释
+	 * @param readLine
+	 * @param map
+	 * @param line
+	 * @param notePostFlag
+	 * @return
+	 */
 	private static Map<String, Integer> noteMultiLine(String readLine, Map<Integer, String> map, int line,
 			int notePostFlag) {
 		Map<String,Integer> result = new HashMap<String,Integer>();
 		if (readLine.contains("xxxxxxxx")) {
 			noteSpecifiedNumLine(2,map,line); // 这个2 是你给的参数，想要注释到这一行的前面n行
-			notePostFlag = line + 2; // 这个2也是你给的参数，想要注释到这一行的后面n行
+			notePostFlag = line + 2;  // 这个2也是你给的参数，想要注释到这一行的后面n行
 		}
 		result.put("line",line);
 		result.put("notePostFlag",notePostFlag);
@@ -141,11 +165,17 @@ public class MainMethod {
 		return readLine;
 	}
 
+	
 	private static String contactBothStrMethod(String readLine) {
 		readLine = PRESTR + readLine + POSTSTR; 
 		return readLine;
 	}
 
+	/**
+	 * 在某一方后面添加注释
+	 * @param readLine
+	 * @return
+	 */
 	private static String contactPostStrMethod(String readLine) {
 		readLine = readLine + POSTSTR; 
 		return readLine;
